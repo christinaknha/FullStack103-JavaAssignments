@@ -44,8 +44,56 @@ public class Deck {
     }
 
     // Draws from the deck
-    public void draw(Deck comingFrom) {
+    public Card draw(Deck comingFrom) {
+        return comingFrom.getCard(0);
+    }
 
+    // Calculate cardValues
+    public int cardValues() {
+        int totalValue=0;
+        for (int i = 0; i < deckSize(); i++) {
+            Values cardValue = deck.get(i).getValue();
+            switch (cardValue) {
+                case TWO:
+                    totalValue += 2;
+                    break;
+                case THREE:
+                    totalValue += 3;
+                    break;
+                case FOUR:
+                    totalValue += 4;
+                    break;
+                case FIVE:
+                    totalValue += 5;
+                    break;
+                case SIX:
+                    totalValue += 6;
+                    break;
+                case SEVEN:
+                    totalValue += 7;
+                    break;
+                case EIGHT:
+                    totalValue += 8;
+                    break;
+                case NINE:
+                    totalValue += 9;
+                    break;
+                case TEN:
+                case JACK:
+                case QUEEN:
+                case KING:
+                    totalValue += 10;
+                    break;
+                case ACE:
+                    if (totalValue < 21) {
+                        totalValue += 11;
+                    } else {
+                        totalValue += 1;
+                    }
+                    break;
+
+            }
+        }return totalValue;
     }
 
     // This will move cards back into the deck to continue playing
