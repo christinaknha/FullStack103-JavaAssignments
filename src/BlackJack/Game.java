@@ -26,6 +26,7 @@ public class Game {
         System.out.println("How much would you like to bet this round?");
         int betAmount = Integer.valueOf(scanner.nextLine());
 
+
         // Create the playing deck
         Deck playingDeck = new Deck();
         playingDeck.createFullDeck();
@@ -83,11 +84,6 @@ public class Game {
                 }
 
             } else if (userMove == 2) {
-                System.out.println("Dealer hand looks like this: ");
-                for (int j = 0; j < dealerHand.deckSize(); j++) {
-                    System.out.println(dealerHand.getCard(j).toString());
-                }
-                System.out.println("Dealer value: " + dealerHand.cardValues());
                 if (dealerHand.cardValues() == 21) {
                     System.out.println("Dealer has blackjack!");
                     if (playerHand.cardValues() == 21) {
@@ -107,33 +103,43 @@ public class Game {
                     System.out.println("You now have $" + playerBalance);
                     break;
                 }
-                if (dealerHand.cardValues() < 17) {
+                while (dealerHand.cardValues() < 17) {
                     dealerHand.addCard(dealerHand.draw(playingDeck));
                     playingDeck.removeCard(0);
 
+                    if (dealerHand.cardValues() > 17) {
+                        System.out.println("Dealer draws a card.");
+                        System.out.println("Dealer hand looks like this: ");
+                        for (int j = 0; j < dealerHand.deckSize(); j++) {
+                            System.out.println(dealerHand.getCard(j).toString());
+                        }
+                        System.out.println("Dealer value: " + dealerHand.cardValues());
+                        break;
+                    }
                     if (dealerHand.cardValues() >= 21) {
                         System.out.println("Dealer has busted. You win $" + betAmount);
                         playerBalance = playerBalance + betAmount;
                         System.out.println("You now have $" + playerBalance);
                         break;
                     }
-                } else if (playerHand.cardValues() < 21 && playerHand.cardValues() > dealerHand.cardValues()) {
-                    System.out.println("You have higher values. You win!");
-                    playerBalance = playerBalance + betAmount;
-                    System.out.println("You now have $" + playerBalance);
-                    break;
-                } else if (dealerHand.cardValues() < 21 && dealerHand.cardValues() > playerHand.cardValues()) {
-                    System.out.println("Dealer has higher values. You lose!");
-                    playerBalance = playerBalance + betAmount;
-                    System.out.println("You now have $" + playerBalance);
-                    break;
-                } else if (playerHand.cardValues() == dealerHand.cardValues()) {
-                    System.out.println("It is a tie! You also have blackjack! You win nothing.");
-                    System.out.println("You now have $" + playerBalance);
-                    break;
+                    if (playerHand.cardValues() < 21 && playerHand.cardValues() > dealerHand.cardValues()) {
+                        System.out.println("You have higher values. You win!");
+                        playerBalance = playerBalance + betAmount;
+                        System.out.println("You now have $" + playerBalance);
+                        break;
+                    } else if (dealerHand.cardValues() < 21 && dealerHand.cardValues() > playerHand.cardValues()) {
+                        System.out.println("Dealer has higher values. You lose!");
+                        playerBalance = playerBalance + betAmount;
+                        System.out.println("You now have $" + playerBalance);
+                        break;
+                    } else if (playerHand.cardValues() == dealerHand.cardValues()) {
+                        System.out.println("It is a tie! You also have blackjack! You win nothing.");
+                        System.out.println("You now have $" + playerBalance);
+                        break;
+                    }
+
+
                 }
-
-
             }
         }
     }
