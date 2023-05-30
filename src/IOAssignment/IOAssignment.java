@@ -49,6 +49,8 @@ public class IOAssignment {
 
         } catch(FileNotFoundException fnfe){
             fnfe.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         System.out.println("Numbers: " + numbers);
